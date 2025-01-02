@@ -1,7 +1,14 @@
 package jm.task.core.jdbc.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@ToString(includeFieldNames=true)
 @Entity
 @Table(name = "Users")
 public class User {
@@ -29,40 +36,4 @@ public class User {
         this.age = age;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Byte getAge() {
-        return age;
-    }
-
-    public void setAge(Byte age) {
-        this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "ID " + this.id + ", name: " + this.name + ", lastname: " + this.lastName + ", age: " + this.age;
-    }
 }
