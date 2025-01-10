@@ -1,17 +1,14 @@
 package jm.task.core.jdbc.service;
 
 import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@NoArgsConstructor
 public class UserServiceImpl implements UserService {
-    UserDaoHibernateImpl userDaoHibernateImpl;
-
-    public UserServiceImpl() {
-        userDaoHibernateImpl = new UserDaoHibernateImpl();
-    }
+    UserDaoHibernateImpl userDaoHibernateImpl = new UserDaoHibernateImpl();
 
     public void createUsersTable() {
         userDaoHibernateImpl.createUsersTable();
@@ -29,10 +26,7 @@ public class UserServiceImpl implements UserService {
         userDaoHibernateImpl.removeUserById(id);
     }
 
-    public List<User> getAllUsers() {
-
-        return userDaoHibernateImpl.getAllUsers();
-    }
+    public List<User> getAllUsers() { return userDaoHibernateImpl.getAllUsers(); }
 
     public void cleanUsersTable() {
         userDaoHibernateImpl.cleanUsersTable();

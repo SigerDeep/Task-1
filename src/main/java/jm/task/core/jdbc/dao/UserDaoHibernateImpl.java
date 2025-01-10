@@ -2,14 +2,28 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
+@NoArgsConstructor
 public class UserDaoHibernateImpl implements UserDao {
-
-    public UserDaoHibernateImpl() {
-
+    Properties requests = new Properties();
+    {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/requests.properties"));
+            requests.load(reader);
+        } catch (FileNotFoundException e) {
+            System.err.println("Файл не найден");
+        } catch (IOException e) {
+            System.err.println("Ошибка загрузки");
+        }
     }
 
     @Override
@@ -17,11 +31,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = Util.getSession();
 
         session.beginTransaction();
-        session.createSQLQuery("CREATE TABLE IF NOT EXISTS Users(" +
-                "id BIGSERIAL NOT NULL PRIMARY KEY," +
-                "name VARCHAR(30) NOT NULL," +
-                "lastname VARCHAR(30) NOT NULL," +
-                "age INTEGER NOT NULL);").addEntity(User.class).executeUpdate();
+        session.createSQLQuery(requests.getProperty("createUsersTable")).addEntity(User.class).executeUpdate();
         session.getTransaction().commit();
         session.close();
     }
@@ -31,7 +41,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = Util.getSession();
 
         session.beginTransaction();
-        session.createSQLQuery("DROP TABLE IF EXISTS Users").addEntity(User.class).executeUpdate();
+        session.createSQLQuery(requests.getProperty("dropUsersTable")).addEntity(User.class).executeUpdate();
         session.getTransaction().commit();
         session.close();
     }
@@ -63,7 +73,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public List<User> getAllUsers() {
         Session session = Util.getSession();
         session.beginTransaction();
-        List<User> users = session.createQuery("From User", User.class).list();
+        List<User> users = session.createQuery(requests.getProperty("getAllUsers"), User.class).list();
         session.close();
         return users;
     }
@@ -72,7 +82,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void cleanUsersTable() {
         Session session = Util.getSession();
         session.beginTransaction();
-        session.createQuery("DELETE FROM User").executeUpdate();
+        session.createQuery(requests.getProperty("cleanUsersTable")).executeUpdate();
         session.close();
     }
 }
