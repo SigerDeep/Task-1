@@ -1,5 +1,6 @@
 package jm.task.core.jdbc;
 
+import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserServiceImpl;
@@ -12,25 +13,27 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws SQLException, IOException {
-        UserServiceImpl userService = new UserServiceImpl();
+        UserServiceImpl userServiceImpl = new UserServiceImpl();
 
-        userService.createUsersTable();
+        userServiceImpl.createUsersTable();
 
-        userService.saveUser("John", "Doe", (byte) 35);
-        userService.saveUser("Sara", "Conor", (byte) 40);
-        userService.saveUser("Stephan", "Mayer", (byte) 21);
-        userService.saveUser("Stew", "Romano", (byte) 25);
+        userServiceImpl.saveUser("John", "Doe", (byte) 35);
+        userServiceImpl.saveUser("Sara", "Conor", (byte) 40);
+        userServiceImpl.saveUser("Stephan", "Mayer", (byte) 21);
+        userServiceImpl.saveUser("Stew", "Romano", (byte) 25);
 
-        userService.getAllUsers().forEach(System.out::println);
+        userServiceImpl.getAllUsers().forEach(System.out::println);
 
-        userService.removeUserById(1);
+        userServiceImpl.removeUserById(1);
 
-        userService.getAllUsers().forEach(System.out::println);
+        userServiceImpl.getAllUsers().forEach(System.out::println);
 
-        userService.cleanUsersTable();
+        userServiceImpl.cleanUsersTable();
 
-        userService.getAllUsers().forEach(System.out::println);
+        userServiceImpl.getAllUsers().forEach(System.out::println);
 
-        userService.dropUsersTable();
+        userServiceImpl.dropUsersTable();
+
+
     }
 }

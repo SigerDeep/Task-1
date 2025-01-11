@@ -18,9 +18,9 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             util = new Util();
         } catch (SQLException e) {
-            System.out.println("Не удалось подключиться к базе данных");
+            System.err.println("Не удалось подключиться к базе данных");
         } catch (IOException e) {
-            System.out.println("Не удалось считать данные для подключения к базе данных");
+            System.err.println("Не удалось считать данные для подключения к базе данных");
             throw new RuntimeException();
         }
     }
@@ -35,7 +35,9 @@ public class UserDaoJDBCImpl implements UserDao {
                     "age INTEGER NOT NULL" +
                     ");");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            for (StackTraceElement el : e.getStackTrace()) {
+                System.err.println(el);
+            }
         }
     }
 
@@ -43,7 +45,9 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement statement  = util.getConnection().createStatement()){
             statement.execute("DROP TABLE IF EXISTS Users;");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            for (StackTraceElement el : e.getStackTrace()) {
+                System.err.println(el);
+            }
         }
     }
 
@@ -57,7 +61,9 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute();
             System.out.println("User с именем – " + name + " добавлен в базу данных");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            for (StackTraceElement el : e.getStackTrace()) {
+                System.err.println(el);
+            }
         }
     }
 
@@ -69,7 +75,9 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute();
             System.out.println("User с id – " + id + " удалён из базы данных");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            for (StackTraceElement el : e.getStackTrace()) {
+                System.err.println(el);
+            }
         }
     }
 
@@ -86,7 +94,9 @@ public class UserDaoJDBCImpl implements UserDao {
                 users.add(user);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            for (StackTraceElement el : e.getStackTrace()) {
+                System.err.println(el);
+            }
         }
         return users;
     }
@@ -95,7 +105,9 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement statement = util.getConnection().createStatement()) {
             statement.execute("DELETE FROM Users");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            for (StackTraceElement el : e.getStackTrace()) {
+                System.err.println(el);
+            }
         }
     }
 }
